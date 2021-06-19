@@ -1,0 +1,31 @@
+@import 'variables.scss';
+@import 'calculator.scss';
+@import 'history.scss';
+
+.root-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .app-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    button.btn-toggle-mode {
+      width: 100%;
+      height: 64px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'SF Display', sans-serif;
+      font-size: 1.25rem;
+      background-color: $colour-bg-main;
+      color: $white;
+    }
+  }
+}

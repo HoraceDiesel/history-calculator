@@ -1,26 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import Calculator from 'src/components/calculator/Layout'
+import History from 'src/components/history/Layout'
+import ToggleModeButton from 'src/components/ToggleModeButton'
+import 'src/styles/App.scss'
 
-function App() {
+const App = () => {
+
+  const [isCalculatorMode, setIsCalculatorMode] = React.useState(true)
+
+  const onToggleMode = () => {
+    setIsCalculatorMode(!isCalculatorMode)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={'root-container'}>
+      <div className={'app-container'}>
+        <div>
+        {
+          isCalculatorMode ? (
+            <Calculator />
+          ) : (
+            <History />
+          )
+        }
+        </div>
+        <ToggleModeButton onToggle={onToggleMode} label={isCalculatorMode ? 'History' : 'Calculator'} />
+      </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

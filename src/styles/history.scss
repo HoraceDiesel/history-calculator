@@ -1,0 +1,46 @@
+
+
+.container-history {
+  &.slim {
+    width: 336px;
+  }
+
+  width: 816px;
+  height: 500px;
+  background-color: $colour-bg-light;
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .history-list {
+    overflow-y: scroll;
+    flex-direction: column;
+    align-self: stretch;
+    // align-items: flex-end;
+    margin: 0;
+    padding: 0;
+  }
+
+  .container-record {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 8px 0;
+
+    .operation-label {
+      font-size: 1rem;
+      margin: 6px 0;
+      font-family: 'SF Display', serif;
+      color: $light-grey;
+    }
+
+    .result-label {
+      font-size: 1.5rem;
+      font-family: 'SF Display', serif;
+      font-weight: 700;
+      margin: 8px 0;
+      color: $darker-grey;
+    }
+  }
+}
