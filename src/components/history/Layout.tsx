@@ -9,6 +9,11 @@ const Layout = () => {
   const { windowWidth } = useWindowSize()
   const [list, setList] = React.useState<HistoryRecord[]>([])
 
+  const onClearClick = () => {
+    storageService.clear()
+    setList([])
+  }
+
   React.useEffect(() => {
     const list = storageService.getAllRecords().filter(record => Object.entries(record).length === 3).reverse()
     setList(list)
@@ -16,7 +21,18 @@ const Layout = () => {
 
   return (
     <div className={`container-history ${windowWidth < SCIENTIFIC_PANEL_THRESHOLD && 'slim'}`}>
-      <h2>History</h2>
+      <div className={'container-header'}>
+        <h2>
+          History
+        </h2>
+        {list.length > 0 && (
+          <button
+            onClick={onClearClick}
+          >
+            Clear
+          </button>
+        )}
+      </div>
       {
         list.length > 0 ? (
           <ul className={'history-list'}>
@@ -32,9 +48,9 @@ const Layout = () => {
             }
           </ul>
         ) : (
-          <h3>
+          <p>
             There is no records.
-          </h3>
+          </p>
         )
       }
     </div>

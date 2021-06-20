@@ -13,6 +13,20 @@
   flex-direction: column;
   align-items: center;
 
+  .container-header {
+    display: flex;
+    flex-direction: column;
+
+    h2 {
+      margin-bottom: 10px;
+    }
+
+    button {
+      text-decoration: underline;
+      font-size: 1rem;
+    }
+  }
+
   .history-list {
     overflow-y: scroll;
     flex-direction: column;

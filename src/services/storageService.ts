@@ -36,3 +36,7 @@ export const addRecord = (value: any) => {
 
   localStorage.setItem(STORAGE_KEY, JSON.stringify(newRecords))
 }
+
+export const clear = () => {
+  localStorage.removeItem(STORAGE_KEY)
+}
