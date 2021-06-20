@@ -7,6 +7,7 @@
 
   .container-result {
     height: 100px;
+    max-width: 336px;
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
@@ -18,7 +19,8 @@
       display: flex;
       font-family: 'SF Display', serif;
       font-weight: 300;
-      font-size: 5rem;
+      font-size: 2rem;
+      white-space: normal;
     }
   }
 
@@ -117,6 +119,20 @@
       color: $white;
       background-color: $orange;
       font-size: 2rem;
+    }
+  }
+}
+
+@media screen and (min-width: 831px) {
+  .container-calculator {
+    .container-result {
+      max-width: 816px;
+
+      .result-label {
+        font-size: 5rem;
+        white-space: nowrap;
+        overflow: scroll;
+      }
     }
   }
 }

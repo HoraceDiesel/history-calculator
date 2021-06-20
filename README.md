@@ -6,10 +6,10 @@ Demo: [https://react-calculator-history.web.app/](https://react-calculator-histo
 
 ## System Dependencies
 
-### Minimum
+### Recomended
 
-* node 8 `$ brew install node@8`
-* npm 5 `$ npm install -g npm@5`
+* node 14 `$ brew install node@14`  or use `nvm`
+* npm 6 `$ npm install -g npm@6`
 
 ## Setup
 Install required node modules:
