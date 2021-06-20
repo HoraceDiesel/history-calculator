@@ -142,7 +142,10 @@ const Calculator = () => {
 
       const storageItem = {
         operation: operation,
-        result,
+        result: result.toLocaleString('en-US', {
+          useGrouping: true,
+          maximumFractionDigits: 6
+        }),
       }
 
       addRecordToStorage(storageItem)

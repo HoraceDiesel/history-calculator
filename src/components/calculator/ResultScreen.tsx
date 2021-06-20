@@ -11,9 +11,6 @@ const ResultScreen: React.FunctionComponent<Props> = ({ result }) => {
     maximumFractionDigits: 6
   })
 
-  // let formattedRes = result
-  
-  // Add back missing .0 in e.g. 12.0
   const match = result.match(/\.\d*?(0*)$/)
   
   if (match) {
