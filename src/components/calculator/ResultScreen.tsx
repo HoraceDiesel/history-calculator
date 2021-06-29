@@ -7,7 +7,7 @@ interface Props {
 const ResultScreen: React.FunctionComponent<Props> = ({ result }) => {
   let formattedRes = result
 
-  if (result.split('.')[0].length > 8) {
+  if (result.split('.')[0].length > 8 || (/e\+/).test(result)) {
     formattedRes = parseFloat(result).toExponential(4)
   } else {
     formattedRes = parseFloat(result).toLocaleString('en-US', {

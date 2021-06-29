@@ -13,9 +13,9 @@ interface State {
   ready: boolean
 }
 
-const CalculatorOperations = ['+', '-', '*', '/']
+const CalculatorOperations = ['+', '-', '*', '/', '=']
 
-const Calculator = () => {
+const Calculator: React.FunctionComponent = () => {
 
   const [state, setState] = React.useState<State>({
     value: undefined,
@@ -23,19 +23,12 @@ const Calculator = () => {
     ready: false
   })
 
-  const [displayValue, _setDisplayValue] = React.useState('0')
-
-  // Need to useRef to set/access state due to the eventListener binding for keyboard input
-  const displayValueRef = React.useRef(displayValue)
-  const setDisplayValue = (data: string) => {
-    displayValueRef.current = data
-    _setDisplayValue(data)
-  }
+  const [displayValue, setDisplayValue] = React.useState('0')
 
   const { value, operator, ready } = state
   const { windowWidth } = useWindowSize()
   
-  const clearAll = () => {
+  const clearAll = React.useCallback(() => {
     setState({
       value: undefined,
       operator: undefined,
@@ -43,61 +36,61 @@ const Calculator = () => {
     })
 
     setDisplayValue('0')
-  }
+  }, [])
 
-  const clearDisplay = () => {
+  const clearDisplay = React.useCallback(() => {
     setDisplayValue('0')
-  }
+  }, [])
   
-  const onBackSpacePress = () => {
+  const onBackSpacePress = React.useCallback(() => {
     setDisplayValue(displayValue.substring(0, displayValue.length - 1) || '0')
-  }
+  }, [displayValue])
   
   const onPositiveToggle = () => {
-    const newValue = parseFloat(displayValueRef.current) * -1
+    const newValue = parseFloat(displayValue) * -1
     
     setDisplayValue(String(newValue))
   }
   
-  const onPercentPress = () => {
-    const currentValue = parseFloat(displayValueRef.current)
+  const onPercentPress = React.useCallback(() => {
+    const currentValue = parseFloat(displayValue)
     
     if (currentValue === 0)
       return
-    
-    const fixedDigits = displayValueRef.current.replace(/^-?\d*\.?/, '')
-    const newValue = parseFloat(displayValueRef.current) / 100
-    
+
+    const fixedDigits = displayValue.replace(/^-?\d*\.?/, '')
+    const newValue = parseFloat(displayValue) / 100
+
     setDisplayValue(String(newValue.toFixed(fixedDigits.length + 2)))
-  }
+  }, [displayValue])
   
-  const inputDot = () => {  
-    if (!(/\./).test(displayValueRef.current)) {
-      setState({
+  const inputDot = React.useCallback(() => {  
+    if (!(/\./).test(displayValue)) {
+      setState(state => ({
         ...state,
         ready: false
-      })
-      setDisplayValue(displayValueRef.current + '.',)
+      }))
+      setDisplayValue(displayValue + '.',)
     }
-  }
+  }, [displayValue])
   
-  const inputDigit = (input: number) => {
+  const inputDigit = React.useCallback((input: number) => {
     if (ready) {
-      setState({
+      setState((state) => ({
         ...state,
         ready: false
-      })
+      }))
       setDisplayValue(String(input))
     } else {
-      if (displayValueRef.current.length > 6) {
+      if (displayValue.length > 6) {
         return
       }
-      setDisplayValue(displayValueRef.current === '0' ? String(input) : displayValueRef.current + input)
+      setDisplayValue(displayValue === '0' ? String(input) : displayValue + input)
     }
-  }
+  }, [ready, displayValue])
   
-  const calculate = (nextOperator: string) => {    
-    const inputValue = parseFloat(displayValueRef.current)
+  const calculate = React.useCallback((nextOperator: string) => {
+    const inputValue = parseFloat(displayValue)
     
     if (value == null) {
       setState({
@@ -128,6 +121,8 @@ const Calculator = () => {
           operation = `${baseValue} / ${inputValue} =`
           break
         case '=':
+          result = baseValue
+          break
         default:
           result = inputValue
       }
@@ -150,7 +145,7 @@ const Calculator = () => {
 
       addRecordToStorage(storageItem)
     }
-  }
+  }, [operator, value, displayValue])
 
   const onKeyDown = (event: KeyboardEvent): void => {
     let { key } = event
@@ -183,10 +178,13 @@ const Calculator = () => {
     }
   }
 
+  const callback = React.useCallback(onKeyDown, [calculate, clearAll, clearDisplay, displayValue, inputDigit, inputDot, onBackSpacePress, onPercentPress])
+
   React.useEffect(() => {
-    document.addEventListener('keydown', onKeyDown)
-    return () => document.removeEventListener('keydown', onKeyDown)
-  }, [])
+    document.addEventListener('keydown', callback)
+    
+    return () => document.removeEventListener('keydown', callback)
+  }, [callback])
 
   const shouldClearCurrent = displayValue !== '0'
   const clearButtonLabel = shouldClearCurrent ? 'C' : 'AC'

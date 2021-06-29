@@ -9,6 +9,17 @@ const Layout = () => {
   const { windowWidth } = useWindowSize()
   const [list, setList] = React.useState<HistoryRecord[]>([])
 
+  const mapResultToDisplay = (result: string) => {
+    const display = (result.split('.')[0].length > 8 || (/e\+/).test(result)) ?
+      parseFloat(result).toExponential(4) :
+      parseFloat(result).toLocaleString('en-US', {
+        useGrouping: true,
+        maximumFractionDigits: 6
+      })
+
+    return display === 'NaN' ? '∞' : display
+  }
+
   const onClearClick = () => {
     storageService.clear()
     setList([])
@@ -41,7 +52,7 @@ const Layout = () => {
                 return (
                   <li className={'container-record'} key={key}>
                     <p className={'operation-label'}>{item.operation}</p>
-                    <h3 className={'result-label'}>{item.result}</h3>
+                    <h3 className={'result-label'}>{mapResultToDisplay(item.result)}</h3>
                   </li>
                 )
               })
